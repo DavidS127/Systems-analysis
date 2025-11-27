@@ -110,7 +110,7 @@ def load_and_validate(train_path: str, test_path: str, save_meta: bool = True, m
 
     # compute file hashes (for traceability)
     train_hash = file_hash(train_path)
-    test_hash = file_hash(test_path)
+    test_hash = file_hash(test_path) 
 
     # read csvs safely
     train_df = safe_read_csv(train_path, parse_dates=["Date"])
