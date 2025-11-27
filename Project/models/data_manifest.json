@@ -1,0 +1,64 @@
+{
+  "train_file": "C:\\Users\\USUARIO\\Desktop\\TEST\\data\\train.csv",
+  "test_file": "C:\\Users\\USUARIO\\Desktop\\TEST\\data\\test.csv",
+  "train_hash": "a6accca73601079452b1a6cae9e9bd4a6d3f8246f8156417a618cf3dd4744ba2",
+  "test_hash": "f0f6fd8a9b12eeab37e6efc82d06342d1cd4e0bb4234846fc0ad9f3343e7692a",
+  "train_rows": 20580,
+  "test_rows": 12642,
+  "train_date_range": {
+    "min": "2020-01-22 00:00:00",
+    "max": "2020-03-31 00:00:00"
+  },
+  "test_date_range": {
+    "min": "2020-03-19 00:00:00",
+    "max": "2020-04-30 00:00:00"
+  },
+  "train_stats": {
+    "ConfirmedCases": {
+      "count": 20580,
+      "min": 0.0,
+      "max": 105792.0,
+      "mean": 514.9391156462585,
+      "std": 4541.26176820758
+    },
+    "Fatalities": {
+      "count": 20580,
+      "min": 0.0,
+      "max": 12428.0,
+      "mean": 21.080952380952382,
+      "std": 287.7581965553578
+    }
+  },
+  "test_stats": {},
+  "anomalies": {
+    "ConfirmedCases_negative_deltas_regions": [
+      "Australia__Northern Territory",
+      "Australia__Queensland",
+      "Canada__Alberta",
+      "China__Guizhou",
+      "France__Saint Barthelemy",
+      "Guyana__nan",
+      "US__Alaska",
+      "US__Nevada",
+      "US__Utah",
+      "US__Virgin Islands",
+      "US__Washington"
+    ],
+    "Fatalities_negative_deltas_regions": [
+      "Canada__Quebec",
+      "Iceland__nan",
+      "India__nan",
+      "Kazakhstan__nan",
+      "Philippines__nan",
+      "Serbia__nan",
+      "Slovakia__nan",
+      "US__Hawaii",
+      "US__Virginia"
+    ]
+  },
+  "duplicates": {
+    "train": 0,
+    "test": 0
+  },
+  "created_at": "2025-11-27T16:50:19.915590Z"
+}
