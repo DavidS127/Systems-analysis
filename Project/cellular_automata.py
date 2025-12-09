@@ -14,7 +14,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-os.makedirs("models/plots/cellular", exist_ok=True)
+os.makedirs("Project/models/plots/cellular", exist_ok=True)
 
 
 class CellularAutomata:
@@ -59,7 +59,7 @@ def simulate_cellular_automata():
     sns.heatmap(snapshots[-1], cmap="Reds")
     plt.title("Final State of Cellular Automata")
     plt.tight_layout()
-    plt.savefig("models/plots/cellular/final_state.png")
+    plt.savefig("Project/models/plots/cellular/final_state.png")
     plt.close()
 
     return snapshots

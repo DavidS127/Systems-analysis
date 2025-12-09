@@ -17,7 +17,7 @@ import os
 # ENTRENAR MODELO DE CASOS
 # ======================================================
 def train_xgb_cases(train_df):
-    os.makedirs("models", exist_ok=True)
+    os.makedirs("Project/models", exist_ok=True)
 
     features = [
         "ConfirmedCases", "Fatalities",
@@ -41,7 +41,7 @@ def train_xgb_cases(train_df):
     model.fit(train_df[features], train_df[target])
 
     # Guardar modelo de casos
-    model.save_model("models/xgb_cases.json")
+    model.save_model("Project/models/xgb_cases.json")
 
     return model
 
@@ -50,7 +50,7 @@ def train_xgb_cases(train_df):
 # ENTRENAR MODELO DE FATALITIES
 # ======================================================
 def train_xgb_fatalities(train_df):
-    os.makedirs("models", exist_ok=True)
+    os.makedirs("Project/models", exist_ok=True)
 
     features = [
         "ConfirmedCases", "Fatalities",
@@ -74,7 +74,7 @@ def train_xgb_fatalities(train_df):
     model.fit(train_df[features], train_df[target])
 
     # Guardar modelo de fatalities
-    model.save_model("models/xgb_fatalities.json")
+    model.save_model("Project/models/xgb_fatalities.json")
 
     return model
 

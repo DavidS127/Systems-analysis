@@ -29,10 +29,10 @@ from cellular_automata import simulate_cellular_automata
 # ============================================================
 # 0. CREAR CARPETAS NECESARIAS
 # ============================================================
-os.makedirs("data", exist_ok=True)
-os.makedirs("models", exist_ok=True)
-os.makedirs("submissions", exist_ok=True)
-os.makedirs("models/plots", exist_ok=True)
+os.makedirs("Project/data", exist_ok=True)
+os.makedirs("Project/models", exist_ok=True)
+os.makedirs("Project/submissions", exist_ok=True)
+os.makedirs("Project/models/plots", exist_ok=True)
 
 
 # ============================================================
@@ -41,10 +41,10 @@ os.makedirs("models/plots", exist_ok=True)
 print("\n=== CARGANDO DATOS ===")
 
 train_df, test_df, meta = load_and_validate(
-    "data/train.csv",
-    "data/test.csv",
+    "Project/data/train.csv",
+    "Project/data/test.csv",
     save_meta=True,
-    meta_path="models/data_manifest.json"
+    meta_path="Project/models/data_manifest.json"
 )
 
 
@@ -135,7 +135,7 @@ submission = forecast_df[forecast_df["ForecastId"].notna()][[
     "ForecastId", "ConfirmedCases", "Fatalities"
 ]]
 
-submission_path = "submissions/submission.csv"
+submission_path = "Project/submissions/submission.csv"
 submission.to_csv(submission_path, index=False)
 
 

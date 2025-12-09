@@ -204,9 +204,9 @@ def load_and_validate(train_path: str, test_path: str, save_meta: bool = True, m
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Load and validate COVID-19 Kaggle train/test CSVs.")
-    parser.add_argument("--train", type=str, default="data/train.csv", help="Path to train.csv")
-    parser.add_argument("--test", type=str, default="data/test.csv", help="Path to test.csv")
-    parser.add_argument("--meta", type=str, default="models/data_manifest.json", help="Path to save metadata json")
+    parser.add_argument("--train", type=str, default="Project/data/train.csv", help="Path to train.csv")
+    parser.add_argument("--test", type=str, default="Project/data/test.csv", help="Path to test.csv")
+    parser.add_argument("--meta", type=str, default="Project/models/data_manifest.json", help="Path to save metadata json")
     args = parser.parse_args()
 
     try:

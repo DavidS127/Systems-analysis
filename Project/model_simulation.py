@@ -27,7 +27,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-os.makedirs("models/plots/simulation", exist_ok=True)
+os.makedirs("Project/models/plots/simulation", exist_ok=True)
 
 
 # ==============================
@@ -102,11 +102,11 @@ def train_simulation_models(df):
         plt.ylabel("Score")
         plt.legend()
         plt.tight_layout()
-        plt.savefig(f"models/plots/simulation/learning_curve_{name}.png")
+        plt.savefig(f"Project/models/plots/simulation/learning_curve_{name}.png")
         plt.close()
 
     # Save performance table
-    pd.DataFrame(results).T.to_csv("models/simulation_results.csv")
+    pd.DataFrame(results).T.to_csv("Project/models/simulation_results.csv")
 
     print("\n✔ Resultados guardados en models/simulation_results.csv")
     print("✔ Gráficos generados en models/plots/simulation/")
@@ -134,7 +134,7 @@ def simulation_perturbation(model, df, eps=0.05):
     plt.title("Perturbation Impact Histogram")
     plt.xlabel("Prediction Change (delta)")
     plt.tight_layout()
-    plt.savefig("models/plots/simulation/perturbation_hist.png")
+    plt.savefig("Project/models/plots/simulation/perturbation_hist.png")
     plt.close()
 
     return delta.mean()
@@ -171,7 +171,7 @@ def feedback_loop_simulation(model, df, steps=7):
     plt.xlabel("Iteration")
     plt.ylabel("Avg Predicted Cases")
     plt.tight_layout()
-    plt.savefig("models/plots/simulation/feedback_loop.png")
+    plt.savefig("Project/models/plots/simulation/feedback_loop.png")
     plt.close()
 
     return results

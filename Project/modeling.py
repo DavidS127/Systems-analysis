@@ -25,7 +25,7 @@ import xgboost as xgb
 # UTILIDADES
 # ======================================================
 def ensure_models_folder():
-    os.makedirs("models", exist_ok=True)
+    os.makedirs("Project/models", exist_ok=True)
 
 
 def get_features(df):
@@ -111,7 +111,7 @@ def train_model(train_df, model_type="xgb"):
     model.fit(X, y)
 
     # Guardar modelo
-    model_path = f"models/{model_name}.pkl"
+    model_path = f"Project/models/{model_name}.pkl"
     dump(model, model_path)
 
     print(f"Modelo guardado en: {model_path}")
@@ -119,7 +119,7 @@ def train_model(train_df, model_type="xgb"):
     # ========================
     # GUARDADO DE RESULTADOS CV
     # ========================
-    report_path = "models/model_report.csv"
+    report_path = "Project/models/model_report.csv"
     row = {
         "modelo": model_name,
         "cv_mae_media": mean_cv,
@@ -176,7 +176,7 @@ def sensitivity_analysis(model, df, perturbation=0.05, samples=200):
     })
 
     # Guardar reporte
-    result_path = "models/sensitivity_report.csv"
+    result_path = "Project/models/sensitivity_report.csv"
     result.to_csv(result_path, index=False)
 
     print(f"Sensitivity Analysis guardado en: {result_path}")
