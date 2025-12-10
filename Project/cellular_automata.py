@@ -1,14 +1,3 @@
-"""
-cellular_automata.py
-Persona 3 – Scenario 2 (Event-Based Simulation / Cellular Automata)
-
-Simula:
-- Difusión espacial de casos
-- Interacciones locales
-- Eventos aleatorios
-- Evolución temporal
-"""
-
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -20,7 +9,7 @@ os.makedirs("Project/models/plots/cellular", exist_ok=True)
 class CellularAutomata:
     def __init__(self, size=30, infection_rate=0.25, noise=0.05):
         self.size = size
-        self.grid = np.random.randint(0, 2, (size, size))  # Infectado = 1
+        self.grid = np.random.randint(0, 2, (size, size))  # Infected = 1
         self.infection_rate = infection_rate
         self.noise = noise
 
@@ -34,7 +23,7 @@ class CellularAutomata:
 
                 infected_neighbors = neighbors.sum() - self.grid[i, j]
 
-                # Regla de infección
+                # Infection Rule
                 prob = infected_neighbors * self.infection_rate
 
                 if np.random.rand() < prob + self.noise:
@@ -54,7 +43,7 @@ def simulate_cellular_automata():
     CA = CellularAutomata(size=25, infection_rate=0.2, noise=0.03)
     snapshots = CA.run(steps=25)
 
-    # Plot final heatmap
+    # Final Plot heatmap
     plt.figure(figsize=(6, 6))
     sns.heatmap(snapshots[-1], cmap="Reds")
     plt.title("Final State of Cellular Automata")

@@ -1,20 +1,3 @@
-"""
-
-Features:
-- Load CSVs (train, test) from a path
-- Optional Kaggle download helper (commented / placeholder)
-- Schema & integrity checks (columns present, types, date parse)
-- Create unified region key column 'region'
-- Basic data cleaning: trim whitespace, fill Province/State NaN -> ''
-- Save metadata (hashes, row counts, date ranges) to JSON for traceability
-- Minimal CLI usage for quick runs
-
-Usage:
-    from data_ingestion import load_and_validate
-
-    train_df, test_df, meta = load_and_validate("data/train.csv", "data/test.csv", save_meta=True, meta_path="models/data_manifest.json")
-"""
-
 import os
 import json
 import hashlib

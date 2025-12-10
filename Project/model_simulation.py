@@ -1,20 +1,3 @@
-"""
-model_simulation.py
-Persona 2 – Scenario 1 (Data-driven Simulation)
-
-Implementa:
-- RandomForest
-- Linear Regression
-- MLP Neural Network
-Evalúa:
-- MAE, RMSE, accuracy (solo si clasificación)
-Produce:
-- Learning curves
-- Error plots
-- Sensitivity perturbation
-- Feedback loop simulation
-"""
-
 import os
 import numpy as np
 import pandas as pd
@@ -29,10 +12,7 @@ import seaborn as sns
 
 os.makedirs("Project/models/plots/simulation", exist_ok=True)
 
-
-# ==============================
 # Utility
-# ==============================
 def get_features(df):
     return [
         "ConfirmedCases", "Fatalities",
@@ -41,15 +21,8 @@ def get_features(df):
         "dayofweek", "weekofyear"
     ]
 
-
-# ==============================
 # TRAIN SIMULATION MODELS
-# ==============================
 def train_simulation_models(df):
-    """
-    Entrena y evalúa RF, LR y MLP
-    Genera learning curves y error plots
-    """
     X = df[get_features(df)]
     y = df["ConfirmedCases"]  # target base
 
@@ -73,7 +46,7 @@ def train_simulation_models(df):
     results = {}
 
     for name, model in models.items():
-        print(f"\nEntrenando modelo de simulación: {name}")
+        print(f"\nTraining simulation model: {name}")
 
         # Fit
         model.fit(X_train, y_train)
@@ -84,12 +57,10 @@ def train_simulation_models(df):
         mae = mean_absolute_error(y_test, pred)
         rmse = np.sqrt(mean_squared_error(y_test, pred))
 
-        # Guardamos
+        # Saved results
         results[name] = {"mae": mae, "rmse": rmse}
 
-        # --------------------------
         # Learning curves
-        # --------------------------
         train_sizes, train_scores, val_scores = learning_curve(
             model, X, y, cv=3, train_sizes=np.linspace(0.1, 1, 5)
         )
@@ -108,25 +79,17 @@ def train_simulation_models(df):
     # Save performance table
     pd.DataFrame(results).T.to_csv("Project/models/simulation_results.csv")
 
-    print("\n✔ Resultados guardados en models/simulation_results.csv")
-    print("✔ Gráficos generados en models/plots/simulation/")
+    print("\nResults saved on models/simulation_results.csv")
+    print("Graphics generated on models/plots/simulation/")
 
     return models, results
 
-
-# ==============================
 # PERTURBATION SIMULATION
-# ==============================
 def simulation_perturbation(model, df, eps=0.05):
-    """
-    Perturba las features y mide impacto en la predicción.
-    """
     X = df[get_features(df)].copy()
-
     perturb = X * (1 + np.random.uniform(-eps, eps, X.shape))
     pred_original = model.predict(X)
     pred_perturbed = model.predict(perturb)
-
     delta = np.abs(pred_original - pred_perturbed)
 
     plt.figure(figsize=(8, 4))
@@ -140,15 +103,8 @@ def simulation_perturbation(model, df, eps=0.05):
     return delta.mean()
 
 
-# ==============================
 # FEEDBACK LOOP SIMULATION
-# ==============================
 def feedback_loop_simulation(model, df, steps=7):
-    """
-    Retroalimenta la predicción como entrada,
-    simulando aprendizaje iterativo.
-    """
-
     df_loop = df.copy()
     X = df_loop[get_features(df_loop)]
 

@@ -8,7 +8,7 @@ from preprocessing import clean_data, feature_engineering
 # Modeling (base models + CV + sensitivity)
 from modeling import train_model, sensitivity_analysis
 
-# Forecast autoregresivo
+# Forecast autoregrssive pipeline
 from model_xgb_forecast import (
     train_xgb_cases,
     train_xgb_fatalities,
@@ -25,20 +25,12 @@ from model_simulation import (
 # Scenario 2 – Cellular Automata
 from cellular_automata import simulate_cellular_automata
 
-
-# ============================================================
-# 0. CREAR CARPETAS NECESARIAS
-# ============================================================
 os.makedirs("Project/data", exist_ok=True)
 os.makedirs("Project/models", exist_ok=True)
 os.makedirs("Project/submissions", exist_ok=True)
 os.makedirs("Project/models/plots", exist_ok=True)
 
-
-# ============================================================
-# 1. CARGA DE DATOS
-# ============================================================
-print("\n=== CARGANDO DATOS ===")
+print("\n=== CHARGING DATA ===")
 
 train_df, test_df, meta = load_and_validate(
     "Project/data/train.csv",
@@ -48,44 +40,29 @@ train_df, test_df, meta = load_and_validate(
 )
 
 
-# ============================================================
-# 2. LIMPIEZA
-# ============================================================
-print("\n=== LIMPIANDO DATOS ===")
+print("\n=== CLEANING DATA ===")
 
 clean_train = clean_data(train_df)
 clean_test = clean_data(test_df)
 
-
-# ============================================================
-# 3. FEATURE ENGINEERING
-# ============================================================
-print("\n=== GENERANDO FEATURES ===")
+print("\n=== GENERATING FEATURES ===")
 
 feat_train = feature_engineering(clean_train)
 feat_test = feature_engineering(clean_test)
 
-
-# ============================================================
-# 4. MODELOS BASE (RF, GBR, XGB)
-# ============================================================
-print("\n=== ENTRENANDO MODELOS BASE ===")
+print("\n=== TRAINING BASE MODELS  ===")
 
 model_xgb_base = train_model(feat_train, model_type="xgb")
 model_rf = train_model(feat_train, model_type="rf")
 model_gbr = train_model(feat_train, model_type="gbr")
 
-
-# ============================================================
-# 5. SENSITIVITY ANALYSIS
-# ============================================================
-print("\n=== ANALIZANDO SENSIBILIDAD ===")
+print("\n=== ANALAZYING SENSIBILITY ===")
 
 sensitivity_analysis(model_xgb_base, feat_train)
 
 
 # ============================================================
-# 6. SCENARIO 1 – DATA-DRIVEN SIMULATION
+#  SCENARIO 1 – DATA-DRIVEN SIMULATION
 # ============================================================
 print("\n=== SCENARIO 1: DATA-DRIVEN SIMULATION ===")
 
@@ -103,7 +80,7 @@ loop_results = feedback_loop_simulation(
 
 
 # ============================================================
-# 7. SCENARIO 2 – EVENT-BASED SIMULATION (CELLULAR AUTOMATA)
+# SCENARIO 2 – EVENT-BASED SIMULATION (CELLULAR AUTOMATA)
 # ============================================================
 print("\n=== SCENARIO 2: CELLULAR AUTOMATA SIMULATION ===")
 
@@ -111,7 +88,7 @@ snapshots = simulate_cellular_automata()
 
 
 # ============================================================
-# 8. FORECAST AUTORREGRESIVO (PIPELINE PRINCIPAL)
+# FORECAST AUTORREGRESIVO (PRINCIPAL PIPELINE )
 # ============================================================
 print("\n=== ENTRENANDO MODELOS AUTORREGRESIVOS ===")
 
@@ -127,7 +104,7 @@ forecast_df = forecast_future(
 
 
 # ============================================================
-# 9. ARCHIVO DE SUBMISSION
+# SUBMISSION FILE CREATION
 # ============================================================
 print("\n=== CREANDO SUBMISSION.CSV ===")
 
@@ -138,17 +115,13 @@ submission = forecast_df[forecast_df["ForecastId"].notna()][[
 submission_path = "Project/submissions/submission.csv"
 submission.to_csv(submission_path, index=False)
 
-
-# ============================================================
-# 10. FIN
-# ============================================================
 print("\n====================================================")
-print("✔ Pipeline COMPLETO")
-print("✔ Modelos base entrenados")
-print("✔ Sensitivity realizado")
-print("✔ Simulation Scenario 1 listo")
-print("✔ Cellular Automata completo")
-print("✔ Forecast generado")
-print("✔ submission.csv guardado en:", submission_path)
-print("✔ Reportes visuales en /models/plots/")
+print("Pipeline COMPLETED")
+print("Base models trained")
+print("Sensitivity done")
+print("Simulation Scenario 1 Ready")
+print("Cellular Automata completed")
+print("Forecast generated")
+print("submission.csv saved on:", submission_path)
+print("Visual reports on: Project/models/plots/")
 print("====================================================\n")

@@ -1,21 +1,8 @@
-"""
-model_xgb_forecast.py
-
-Forecasting autoregresivo usando XGBoost para:
-- ConfirmedCases
-- Fatalities
-Incluye guardado automático de modelos en /models/
-"""
-
 import pandas as pd
 import numpy as np
 import xgboost as xgb
 import os
 
-
-# ======================================================
-# ENTRENAR MODELO DE CASOS
-# ======================================================
 def train_xgb_cases(train_df):
     os.makedirs("Project/models", exist_ok=True)
 
@@ -40,15 +27,11 @@ def train_xgb_cases(train_df):
 
     model.fit(train_df[features], train_df[target])
 
-    # Guardar modelo de casos
+    # Save model for cases
     model.save_model("Project/models/xgb_cases.json")
 
     return model
 
-
-# ======================================================
-# ENTRENAR MODELO DE FATALITIES
-# ======================================================
 def train_xgb_fatalities(train_df):
     os.makedirs("Project/models", exist_ok=True)
 
@@ -73,15 +56,11 @@ def train_xgb_fatalities(train_df):
 
     model.fit(train_df[features], train_df[target])
 
-    # Guardar modelo de fatalities
+    # Save model for fatalities
     model.save_model("Project/models/xgb_fatalities.json")
 
     return model
 
-
-# ======================================================
-# FORECAST AUTORREGRESIVO PARA AMBOS MODELOS
-# ======================================================
 def forecast_future(model_cases, model_fatal, train_df, test_df):
 
     df = pd.concat([train_df, test_df], ignore_index=True)
@@ -99,12 +78,11 @@ def forecast_future(model_cases, model_fatal, train_df, test_df):
         region_df = df[df["region"] == region].copy()
         idxs = region_df.index
 
-        # Detectar filas FUTURAS (test)
         future_idxs = region_df[region_df["ForecastId"].notna()].index
 
         for idx in future_idxs:
 
-            # Recalcular features autoregresivas
+            # Recalculate features
             region_df.loc[idx, "cases_ma7"] = region_df.loc[:idx, "ConfirmedCases"].tail(7).mean()
             region_df.loc[idx, "fatal_ma7"] = region_df.loc[:idx, "Fatalities"].tail(7).mean()
 
@@ -120,11 +98,11 @@ def forecast_future(model_cases, model_fatal, train_df, test_df):
 
             X_input = region_df.loc[idx, features].values.reshape(1, -1)
 
-            # Predicción de casos
+            # Cases prediction
             pred_cases = model_cases.predict(X_input)[0]
             region_df.loc[idx, "ConfirmedCases"] = max(pred_cases, 0)
 
-            # Predicción de fallecidos
+            # fatalities prediction
             pred_fatal = model_fatal.predict(X_input)[0]
             region_df.loc[idx, "Fatalities"] = max(pred_fatal, 0)
 

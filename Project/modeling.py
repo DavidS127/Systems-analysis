@@ -1,15 +1,3 @@
-"""
-modeling.py
-
-Opción A:
-- Entrena modelos base: RandomForest, GradientBoosting, XGBoost
-- Validación cruzada
-- Ajuste simple de hiperparámetros
-- Análisis de sensibilidad básico
-- Guardado en .pkl con joblib
-- Reporte final en models/model_report.csv
-"""
-
 import os
 import pandas as pd
 import numpy as np
@@ -21,17 +9,12 @@ from joblib import dump
 import xgboost as xgb
 
 
-# ======================================================
-# UTILIDADES
-# ======================================================
+# UTILITY FUNCTIONS
 def ensure_models_folder():
     os.makedirs("Project/models", exist_ok=True)
 
 
 def get_features(df):
-    """
-    Devuelve las columnas que se usarán como entrada del modelo.
-    """
     return [
         "ConfirmedCases", "Fatalities",
         "cases_ma7", "fatal_ma7",
@@ -40,22 +23,14 @@ def get_features(df):
     ]
 
 
-# ======================================================
-# ENTRENAR MODELOS BASE
-# ======================================================
+# TRAIN BASE MODEL WITH CROSS-VALIDATION
 def train_model(train_df, model_type="xgb"):
-    """
-    Entrena un modelo base con validación cruzada y lo guarda en /models/.
-    
-    model_type: "xgb", "rf", "gbr"
-    """
-
     ensure_models_folder()
 
     X = train_df[get_features(train_df)]
-    y = train_df["ConfirmedCases"]  # objetivo base
+    y = train_df["ConfirmedCases"]  # objective variable
 
-    # Selección del modelo
+    # Model selection
     if model_type == "rf":
         model = RandomForestRegressor(
             n_estimators=350,
@@ -85,10 +60,8 @@ def train_model(train_df, model_type="xgb"):
         )
         model_name = "xgboost"
 
-    # ========================
-    # VALIDACIÓN CRUZADA
-    # ========================
-    print(f"\nValidación cruzada para {model_name}...")
+    # cross-validation
+    print(f"\nCross validation for {model_name}...")
 
     cv_scores = cross_val_score(
         model,
@@ -104,21 +77,17 @@ def train_model(train_df, model_type="xgb"):
 
     print(f"MAE CV: {mean_cv:.4f} ± {std_cv:.4f}")
 
-    # ========================
-    # ENTRENAMIENTO FINAL
-    # ========================
-    print(f"Entrenando modelo final {model_name}...")
+    # FINAL TRAINING
+    print(f"Training final model for {model_name}...")
     model.fit(X, y)
 
-    # Guardar modelo
+    # Save model
     model_path = f"Project/models/{model_name}.pkl"
     dump(model, model_path)
 
-    print(f"Modelo guardado en: {model_path}")
+    print(f"Model saved on: {model_path}")
 
-    # ========================
-    # GUARDADO DE RESULTADOS CV
-    # ========================
+    # Saving results 
     report_path = "Project/models/model_report.csv"
     row = {
         "modelo": model_name,
@@ -134,39 +103,32 @@ def train_model(train_df, model_type="xgb"):
 
     report.to_csv(report_path, index=False)
 
-    print(f"Reporte actualizado: {report_path}")
+    print(f"Updated report: {report_path}")
 
     return model
 
 
-# ======================================================
-# ANÁLISIS DE SENSIBILIDAD
-# ======================================================
+# SENSITIVITY ANALYSIS
 def sensitivity_analysis(model, df, perturbation=0.05, samples=200):
-    """
-    Mide cómo cambia la predicción cuando perturbamos las entradas ligeramente.
-    
-    perturbation = 0.05 → (+/- 5%)
-    """
     ensure_models_folder()
 
     features = get_features(df)
     X = df[features].copy()
     y = df["ConfirmedCases"]
 
-    # Muestras aleatorias
+    # Show aleatory sample
     X_sample = X.sample(samples, random_state=42)
 
-    # Predicción original
+    # Original prediction
     preds_original = model.predict(X_sample)
 
-    # Perturbación
+    # Perturbation
     X_perturbed = X_sample * (1 + np.random.uniform(-perturbation, perturbation, X_sample.shape))
 
-    # Predicción perturbada
+    # Perturbated prediction
     preds_perturbed = model.predict(X_perturbed)
 
-    # Diferencia absoluta
+    # Absolute difference
     sensitivity = np.abs(preds_original - preds_perturbed)
 
     result = pd.DataFrame({
@@ -175,11 +137,11 @@ def sensitivity_analysis(model, df, perturbation=0.05, samples=200):
         "delta": sensitivity
     })
 
-    # Guardar reporte
+    # Save report
     result_path = "Project/models/sensitivity_report.csv"
     result.to_csv(result_path, index=False)
 
-    print(f"Sensitivity Analysis guardado en: {result_path}")
-    print(f"Promedio de impacto en predicción: {sensitivity.mean():.4f}")
+    print(f"Sensitivity Analysis saved on: {result_path}")
+    print(f"Impact average in prediction: {sensitivity.mean():.4f}")
 
     return sensitivity.mean()
