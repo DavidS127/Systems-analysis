@@ -19,7 +19,7 @@ ALTERNATE_TEST_COLS = {"Province/State", "Country/Region", "Date", "Id"}
 def file_hash(path: str, block_size: int = 65536) -> str: #we indicate the return type (string)
     """Compute SHA256 hash of a file."""
     h = hashlib.sha256() # Creation of an object of the function hash SHA256
-    #The open file is assigned to f variable
+    #The open file is assigned to f variable --
     #f.read(block_size) brings out the first block an keeps calling this function until the file returns an empty bytes chain
     with open(path, "rb") as f: #The file is opened like a binary the "with" ensures the closing of the file
         for block in iter(lambda: f.read(block_size), b""):
