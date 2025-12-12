@@ -1,6 +1,6 @@
 {
-  "train_file": "C:\\Users\\USUARIO\\Systems-analysis\\Project\\data\\train.csv",
-  "test_file": "C:\\Users\\USUARIO\\Systems-analysis\\Project\\data\\test.csv",
+  "train_file": "C:\\Users\\David Sanchez\\Systems-analysis\\Project\\data\\train.csv",
+  "test_file": "C:\\Users\\David Sanchez\\Systems-analysis\\Project\\data\\test.csv",
   "train_hash": "6e8bcf547361c012c8cb9fe2bdff5ef90fa5094e66294bf273078cd2a6369186",
   "test_hash": "06398f16afc9ee2b5e52fc4713c997c8a99920ff7c97b92fad6a7312c0421909",
   "train_rows": 20580,
@@ -60,5 +60,5 @@
     "train": 0,
     "test": 0
   },
-  "created_at": "2025-12-10T00:08:15.478674Z"
+  "created_at": "2025-12-12T03:16:17.078863Z"
 }

@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+import os
 
 # 1. DATA CLEANING
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
@@ -88,37 +88,3 @@ def feature_engineering(df: pd.DataFrame) -> pd.DataFrame:
     )
 
     return df
-
-
-# 3. VISUALIZATION
-def plot_preprocessing_effects(original_df, cleaned_df, region):
-
-    orig = original_df[original_df["region"] == region]
-    clean = cleaned_df[cleaned_df["region"] == region]
-
-    # -------- Before/After comparison--------
-    plt.figure(figsize=(14, 6))
-    sns.lineplot(data=orig, x="Date", y="ConfirmedCases", label="Original")
-    sns.lineplot(data=clean, x="Date", y="ConfirmedCases", label="Clean")
-    plt.title(f"Comparison of before cases and after preprocessing – {region}")
-    plt.xlabel("Date")
-    plt.ylabel("Cases")
-    plt.grid(True)
-    plt.show()
-
-    plt.figure(figsize=(14, 6))
-    sns.barplot(
-        data=clean,
-        x="Date",
-        y="case_jump",
-        hue="jump_flag",
-        dodge=False,
-        palette="viridis",
-        legend=False
-    )
-    plt.title(f"Sudden jumps detected – {region}")
-    plt.xlabel("Date")
-    plt.ylabel("Daily Case Jump")
-    plt.xticks(rotation=45)
-    plt.grid(True)
-    plt.show()
