@@ -90,7 +90,7 @@ snapshots = simulate_cellular_automata()
 # ============================================================
 # FORECAST AUTORREGRESIVO (PRINCIPAL PIPELINE )
 # ============================================================
-print("\n=== ENTRENANDO MODELOS AUTORREGRESIVOS ===")
+print("\n=== TRAINING AUTOREGRESSIVE MODELS ===")
 
 model_cases = train_xgb_cases(feat_train)
 model_fatal = train_xgb_fatalities(feat_train)
@@ -106,7 +106,7 @@ forecast_df = forecast_future(
 # ============================================================
 # SUBMISSION FILE CREATION
 # ============================================================
-print("\n=== CREANDO SUBMISSION.CSV ===")
+print("\n=== SUBMISSION.CSV CREATING ===")
 
 submission = forecast_df[forecast_df["ForecastId"].notna()][[
     "ForecastId", "ConfirmedCases", "Fatalities"
